@@ -74,34 +74,4 @@ class MyGLSurfaceView extends GLSurfaceView {
 setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 ```
 
-这个选项阻止了GLSurfaceView框架的重新绘制，直到[requestRender()](http://android.xsoftlab.net/reference/android/opengl/GLSurfaceView.html#requestRender())方法被调用。这可以提高应用的效率。
-
-##构建渲染器类
-类[GLSurfaceView.Renderer](http://android.xsoftlab.net/reference/android/opengl/GLSurfaceView.Renderer.html)是真正有意思的地方。这个类可以控制在GLSurfaceView上所绘制的事物。它内部有3个方法，这3个方法由Android系统调用，用于计算如何在GLSurfaceView上进行绘制：
-
-- [onSurfaceCreated()](http://android.xsoftlab.net/reference/android/opengl/GLSurfaceView.Renderer.html#onSurfaceCreated(javax.microedition.khronos.opengles.GL10, javax.microedition.khronos.egl.EGLConfig))在设置OpenGL ES环境的时候调用一次。
-- [onDrawFrame()](http://android.xsoftlab.net/reference/android/opengl/GLSurfaceView.Renderer.html#onDrawFrame(javax.microedition.khronos.opengles.GL10)) view的每次绘制都会调用。
-- [onSurfaceChanged()](http://android.xsoftlab.net/reference/android/opengl/GLSurfaceView.Renderer.html#onSurfaceChanged(javax.microedition.khronos.opengles.GL10, int, int)) 在view的结构发生改变的时候进行调用，比如设备的屏幕方向发生了变化。
-
-下面是OpenGL ES渲染器的最基本实现，这里只是在GLSurfaceView简单绘制了一个黑色的背景：
-```java
-public class MyGLRenderer implements GLSurfaceView.Renderer {
-    public void onSurfaceCreated(GL10 unused, EGLConfig config) {
-        // Set the background frame color
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    }
-    public void onDrawFrame(GL10 unused) {
-        // Redraw background color
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
-    }
-    public void onSurfaceChanged(GL10 unused, int width, int height) {
-        GLES20.glViewport(0, 0, width, height);
-    }
-}
-```
-
-上面就是要做的所有工作了。上面的代码使用OpenGL绘制了一个黑色的背景。虽然这些代码并没有做什么有意思的事情，但是通过创建这些类，你就可以为通过OpenGL绘制图形打下了基础。
-
-> **Note:** 你可能会怀疑，在使用OpengGL ES 2.0 API时，为什么这些方法都会有个名叫[GL10](http://android.xsoftlab.net/reference/javax/microedition/khronos/opengles/GL10.html)的参数。这些在2.0 API中重复使用到的签名方法是为了保持Android framework的代码简便。
-
-如果你对OpenGL ES API很熟悉，你现在就可以设置OpenGL ES的环境并着手绘制图形了。无论如何，如果你想获取更多有关OpenGL的入门帮助，可以查看下节上部分的一些小提示。
+这个选项阻止了在调用requestRender()方法之前
