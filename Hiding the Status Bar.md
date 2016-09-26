@@ -67,3 +67,13 @@ actionBar.hide();
 - 由导航的方式离开View会使由[setSystemUiVisibility()](http://android.xsoftlab.net/reference/android/view/View.html#setSystemUiVisibility(int))方法设置的标志被清除。
 
 ##使内容出现在状态条的后面
+在Android 4.1以上的版本中，你可以将应用的内容区域显示在状态条的后面，所以内容区域的尺寸并不会随着状态条的隐藏显示而变化。通过使用[SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN](http://android.xsoftlab.net/reference/android/view/View.html#SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)标志实现这一点。你可能还需要使用[SYSTEM_UI_FLAG_LAYOUT_STABLE](http://android.xsoftlab.net/reference/android/view/View.html#SYSTEM_UI_FLAG_LAYOUT_STABLE)标志来辅助APP维持一个稳定的布局状态。
+
+当你使用了这项方法，你有责任确保APP UI的边界部分不会被系统条所遮盖。这会使PP不可用。在很多情况下，你可以通过在布局文件中添加android:fitsSystemWindows=true属性来处理这种情况。它会调整父ViewGroup的内边距来流出系统窗口的空间，这足以应付大多数的应用。
+
+在另外一些情况中，你还需要修改默认的内边距来获得期望的布局。为了直接控制内容与系统条的相对关系，重写[fitSystemWindows(Rect insets)](http://android.xsoftlab.net/reference/android/view/View.html#fitSystemWindows(android.graphics.Rect))方法，该方法在内容区域所设置的窗口发生变化时会被调用，为了允许窗口可以调整内容区域。通过重写该方法你可以处理你想如何调整。
+
+##随着ActionBar的变换同步状态条
+在Android 4.1以上的版本中，为了避免重新调整布局的尺寸，当ActionBar显示或隐藏时，你可以开启ActionBar的Overlay Mode。当处于Overlay Mode下时，Activity的布局会使用所有的可用空间，就仿佛ActionBar不存在一样，系统会将ActionBar绘制在布局的上面一层。这会使布局顶部的部分变的模糊，不过当ActionBar显示或者隐藏时，系统并不会重写调整布局的尺寸，这会使转场无缝对接。
+
+为了可以使ActionBar开启Overlay Mode，你需要创建一个自定义主题，并需要继承已有的携带ActionBar的主题，并需要将android:windowActionBarOverlay属性设置为true。

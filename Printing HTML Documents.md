@@ -1,10 +1,10 @@
 原文地址：[http://android.xsoftlab.net/training/printing/html-docs.html](http://android.xsoftlab.net/training/printing/html-docs.html)
 
-在Android中打印内容要比打印照片要复杂一些，它要求将文本与图像整合到一个文档中。不过Android框架提供了一种实现方式，这种方式需要使用HTML来整合文档并打印，实现这个过程仅需要少量的代码。
+在Android中打印内容要比打印照片要复杂一些，它要求将文本与图像整合到一个文档中。Android框架提供了一种实现方式，这种方式需要使用HTML来整合文档并打印，实现这个过程仅需要少量的代码。
 
 在Android 4.4及以上的版本中，类[WebView](http://android.xsoftlab.net/reference/android/webkit/WebView.html)也开始可以打印HTML内容。这个类允许你加载本地的HTML资源或者从web上下载一个页面，并可以创建一个打印工作然后将工作传递给Android的打印服务。
 
-这节课展示了如何快速构建一个包含了文本及图像的HTML文档，然后通过[WebView](http://android.xsoftlab.net/reference/android/webkit/WebView.html)将它打印出来。
+这节课展示了如何快速构建一个包含了文本及图形的HTML文档，然后通过[WebView](http://android.xsoftlab.net/reference/android/webkit/WebView.html)将它打印出来。
 
 ##加载HTML文档
 通过[WebView](http://android.xsoftlab.net/reference/android/webkit/WebView.html)打印HTML文档会涉及到加载HTML资源或者构建一个字符串形式的HTML文档。这一小节描述了如何构建HTML的字符串并且通过[WebView](http://android.xsoftlab.net/reference/android/webkit/WebView.html)将其加载并打印出来。
