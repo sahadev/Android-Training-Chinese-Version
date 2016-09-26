@@ -102,4 +102,71 @@ two()方法是最快的。它使用了增强for循环。
 
 > **Tip:** 也可以查看Josh Bloch 的 Effective Java，第46条。
 
-##Consider Package Instead of Private Access with Private Inner Classes
+##考虑使用包内访问
+请先思考以下类定义：
+```java
+public class Foo {
+    private class Inner {
+        void stuff() {
+            Foo.this.doStuff(Foo.this.mValue);
+        }
+    }
+    private int mValue;
+    public void run() {
+        Inner in = new Inner();
+        mValue = 27;
+        in.stuff();
+    }
+    private void doStuff(int value) {
+        System.out.println("Value is " + value);
+    }
+}
+```
+
+上面的代码定义了一个内部类，它可以直接访问外部类的私有成员以及私有方法。这是正确的，这段代码将会打印出我们所期望的"Value is 27"。
+
+这里的问题是：**VM**会认为Foo$Inner直接访问Foo对象的私有成员是非法的，因为Foo和Foo$Inner是两个不同的类，虽然Java语言允许内部类可以直接访问外部类的私有成员(**PS:虚拟机与语言是两种互不干扰的存在**)。为了弥补这种差异，编译器专门为此生成了一组方法：
+```java
+/*package*/ static int Foo.access$100(Foo foo) {
+    return foo.mValue;
+}
+/*package*/ static void Foo.access$200(Foo foo, int value) {
+    foo.doStuff(value);
+}
+```
+
+当内部类代码需要访问属性mValue或者调用doStuff()方法时会调用上面这些静态方法。上面的代码归结为你所访问的成员属性都是通过访问器方法访问的。早期我们我说通过访问器访问要比直接访问慢很多，所以这是一段特定语言形成的隐性性能开销示例。
+
+##避免使用浮点型
+一般来说，在Android设备上浮点型要比整型慢大概2倍的速度。
+
+在速度方面，float与double并没有什么区别。在空间方面，double是float的两倍大。所以在桌面级设备上，假设空间不是问题，那么我们应当首选double，而不是float。
+
+还有，在对待整型方面，某些处理器擅长乘法，不擅长除法。在这种情况下，整型的除法与取模运算都是在软件中进行的，如果你正在设计一个哈希表或者做其它大量的数学运算的话，这些东西应该考虑到。
+
+##使用本地方法要当心
+使用本地代码开发的APP并不一定比Java语言编写的APP高效多少。首先，它会花费在Java-本地代码的转换过程中，并且JIT也不能优化到这些边界。如果你正在申请本地资源，那么对于这些资源的收集能明显的感觉到困难。除此之外，你还需要对每一种CPU架构进行单独编译。你可能甚至还需要为同一个CPU架构编译多个不同的版本：为G1的ARM处理器编译的代码不能运行在Nexus One的ARM处理上，为Nexus One的ARM处理器编译的代码也同样不能运行在G1的ARM处理器上。
+
+本地代码在这种情况下适宜采用：当你有一个已经存在的本地代码库，你希望将它移植到Android上时，不要为了改善Java语言所编写的代码速度而去使用本地代码。
+
+如果你需要使用本地代码，那么应该读一读[JNI Tips](http://android.xsoftlab.net/guide/practices/jni.html).
+
+> **Tip:** 相关信息也可以查看Josh Bloch 的 Effective Java，第54条。
+
+##性能误区
+在没有JIT的设备中，通过具体类型的变量调用方法要比抽象接口的调用要高效，这是事实。所以，举个例子，通过HashMap map调用方法要比Map map调用方法要高效的多，开销也少，虽然这两个实现都是HashMap。事实上速度并不会慢2倍这么多；真实的不同大概有6%的减缓。进一步讲，JIT会使两者的差别进一步缩小。
+
+在没有JIT的设备上，通过缓存访问属性要比反复访问属性要快将近20%的速度。在JIT的设备中，属性访问的花销与本地访问的花销基本一致，所以这不是一项有多少价值的优化手段，除非你觉得这样做的话代码更易读(这对static,final,常量同样适用)。
+
+##经常估测
+在开始优化之前，要确保你有个问题需要解决：要确保你可以精准测量现有的性能，否则将不能观察到优化所带来的提升。
+
+基准点由[Caliper](http://code.google.com/p/caliper/)的微型基准点框架创建。基准点很难正确获得，所以Caliper将这份很难处理的工作做了，甚至是在你没有在测量那些你想测量的地方的时候。我们强烈的推荐你使用[Caliper](http://code.google.com/p/caliper/)来运行你自己的微型基准点。
+
+你可能还发现Traceview非常有助于提升性能，不过你应该意识到Traceview工作的时候JIT并没有开启。这会错误的认为JIT会将损失掉的时间弥补回来。这尤其重要：根据Traceview所更改的结果会使实际代码运行的更快。
+
+
+有关更多提升APP性能的工具及方法，请参见以下文档：
+
+   - [Profiling with Traceview and dmtracedump](http://android.xsoftlab.net/tools/debugging/debugging-tracing.html)
+   - [Analyzing UI Performance with Systrace](http://android.xsoftlab.net/tools/debugging/systrace.html)
