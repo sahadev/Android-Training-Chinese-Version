@@ -1,13 +1,13 @@
 原文地址：[http://android.xsoftlab.net/training/multiple-threads/communicate-ui.html](http://android.xsoftlab.net/training/multiple-threads/communicate-ui.html)
 
-上节课我们学习了如何启动一项由ThreadPoolExecutor所管理的线程任务。最后这节课我们将学习如何从任务中发送数据给UI线程。这项方法允许任务在后台执行完毕后将结果展现到UI元素中去。
+上节课我们学习了如何启动一项由ThreadPoolExecutor所管理的线程任务。最后这节课我们将学习如何从任务中发送结果数据给UI线程。这项手段可以使任务在执行完毕后将结果显示到UI中去。
 
-每个APP都会有各自的UI线程。只有在UI线程中运行的对象才可以访问该线程中的其它对象。正因为运行任务的线程并不是UI线程，所以它们不可以直接访问UI对象。为了将数据从后台线程转移到UI线程，则需要使用运行在UI线程中的Handler对象。
+每个APP拥有独立的UI线程。只有在UI线程中创建的对象才可以访问该线程中的其它对象。正因为运行任务的线程不是UI线程，所以它们不可以直接访问UI对象。为了将数据从后台线程转移到UI线程，需要使用运行在UI线程中的Handler对象。
 
 ##在UI线程中定义Handler
-Handler是Android系统框架中管理线程的一部分。Handler对象专门用于接收消息然后处理消息。 一般来说，你可以为新线程创建一个Handler，但是你也可以为一个已经建立连接的线程创建Handler。当你将Handler连接到UI线程时，处理消息的代码都会运行在UI线程中。
+Handler是Android系统框架管理线程的一部分。Handler对象专门用于接收消息处理消息。 一般来说，可以为新线程创建一个Handler，也可以为一个已经连接好的线程创建Handler。当你将Handler连接到UI线程时，处理消息的代码都会运行在UI线程中。
 
-在构建线程池的类的构造方法中实例化一个Handler对象，并将该对象的引用存储于一个全局变量中。通过Handler(Looper)的重载构造方法所实例化Handler可以与UI线程产生关联。这个构造方法所使用的Looper参数是Android系统的线程管理框架的另一部分。当以指定的Looper实例初始化一个Handler对象时，Handler对象会运行在Looper对象所在的线程中。
+在构建线程池的类的构造方法中实例化一个Handler对象，并将该对象的引用存储于全局变量中。通过Handler(Looper)重载构造方法所实例化Handler可以与UI线程产生关联。这个构造方法所使用的Looper参数是Android系统的线程管理框架的另一部分。当以指定的Looper实例初始化一个Handler对象时，Handler对象会运行在Looper对象所在的线程中。
 ```java
 private PhotoManager() {
 ...
@@ -32,8 +32,8 @@ private PhotoManager() {
     }
 }
 ```
-##将数据从任务中移到UI线程
-为了将数据从后台进程转移到UI进程，首先将数据的引用以及UI对象存储于任务对象中。接下来，将该任务对象及状态码传给由Handler对象所初始化的对象。在这个对象内，发送一条包含刚刚的状态码以及任务对象给Handler。因为Handler运行在UI线程，所以它可以将数据交给UI对象。
+##将数据从非UI线程转移到UI线程
+为了将数据从后台进程转移到UI进程，首先将数据的引用以及UI对象存储于任务对象中。接下来，将该任务对象及状态码传给由Handler对象所初始化的对象。在这个对象内，发送一条包含状态码的任务对象给Handler。因为Handler是运行在UI线程的，所以它可以将数据交给UI对象。
 
 ###存储数据于任务对象中
 举个例子，这里有一个Runnable对象，运行于后台线程，它用于解码一个Bitmap对象，并将其存储于它所属的对象PhotoTask中。该Runnable还会存储一个状态码：DECODE_STATE_COMPLETED。
