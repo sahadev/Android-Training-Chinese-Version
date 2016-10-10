@@ -66,5 +66,13 @@ jclass globalClass = reinterpret_cast<jclass>(env->NewGlobalRef(localClass));
 
 所有的JNI方法都可以以这两种引用作为参数。不过引用相同的对象可能有不同的结果。举个例子，以同一个引用为参数连续调用两次NewGlobalRef可能会得到不同的返回值。**如果要查看两个引用是否指向了同一个对象，必须使用IsSameObject函数。**绝不要在本地代码中使用"=="比较两个引用。
 
+**绝不要认为在本地代码中的对象引用是个常量或者是唯一的。**一个32位的值所代表的对象的方法调用可能与下次调用就有所不同，这可能是因为两个不同的对象拥有相同的32位值。不要将jobject的值当做键使用。
+
+程序员经常被要求不要过度的申请局部变量。这意味着如果你创建了大量的局部变量，那么应当通过DeleteLocalRef函数手动的释放它们，而不是让JNI为你做这些事情。
+
+要注意jfieldIDs、jmethodID并不是对象引用，所以不能够将它们传给NewGlobalRef函数使用。GetStringUTFChars函数与GetByteArrayElements函数所返回的原始数据指针也同样不是对象。
+
+一个不寻常的情况需要单独说明一下：如果通过AttachCurrentThread函数attach到了一个本地线程上，那么在该线程被detache之前，代码中所有的局部变量都不会被自动释放。任何创建的局部变量都需要手动删除。
 
 ##UTF-8与UTF-16字符串
+Java语言使用的是UTF-16字符串。为了方便起见,JNI提供了****相关方法。
