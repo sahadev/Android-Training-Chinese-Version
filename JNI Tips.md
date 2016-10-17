@@ -1,4 +1,4 @@
-原文地址：http://android.xsoftlab.net/training/articles/perf-jni.html
+原文地址：[http://android.xsoftlab.net/training/articles/perf-jni.html](http://android.xsoftlab.net/training/articles/perf-jni.html)
 
 JNI的全称为Java Native Interface，中文意思是Java本地接口。它定义了Java代码与C/C++代码之间的管理方式。它是两者的桥梁，支持从动态共享库中加载代码。虽然有时有些复杂，但是它的执行效率还是蛮高的。
 
@@ -96,4 +96,39 @@ Release方法需要一个mode参数，这个参数有三种值。运行时执行
 - JNI_COMMIT
  - 实际指针：不做任何事情
  - 指针副本：拷贝后的数组数据，拷贝的缓冲区不会被释放
+- JNI_ABORT
+ - 实际指针：非final修饰的数组对象。早些写入不会被中止。
+ - 指针副本：所拷贝的缓冲区被释放；缓冲区内的任何变更都会丢失。
 
+检查isCopy标志的其中一个原因是需要知道在对数组作出变更之后是否需要调用JNI_COMMIT的相关释放方法，如果正在更改一个正在作出变更以及读取数组内容的操作，那么可以根据该标志跳过这次操作。另一个可能的原因就是用于有效的处理JNI_ABORT。举个例子，你可能想要得到一个数组，然后对其修改之后将其传给一个函数。如果你知道JNI会为你做一个副本的话，那么就不需要创建另外的可编辑副本了。如果JNI传回的是原始数据，那么你自己需要创建一个副本。
+
+一个常见的错误就是如果*isCopy是false，那么可以不调用相关释放方法。但是事实并非如此，如果没有申请拷贝缓冲区，那么原始数据内存必定会被一直占用，也不会被垃圾收集器回收。
+
+还要注意的是，JNI_COMMIT并不会释放数组，你需要在另外的标志执行后再执行一次释放。
+
+##方法调用
+JNI在方法使用上有两种方式，一种如下所示：
+```java
+    jbyte* data = env->GetByteArrayElements(array, NULL);
+    if (data != NULL) {
+        memcpy(buffer, data, len);
+        env->ReleaseByteArrayElements(array, data, JNI_ABORT);
+    }
+```
+
+上面这段代码首先获取了一个数组，然后拷贝出len个字节的元素，最终将这个数组释放。根据实现的不同，Get调用会返回原始数据或者数据副本。在这个案例中，JNI_ABORT可以确保不出现第三个副本。
+
+另一种实现则要更简单一些：
+```java
+    env->GetByteArrayRegion(array, 0, len, buffer);
+```
+
+对于此有若干建议：
+- 减少JNI调用可以节省开销。
+- 不要原始数据或者额外的数据拷贝。
+- 降低程序员出错的风险--他们会在某些操作失败后忘记调用相关的释放方法。
+
+类似的，你可以使用Set<Type>ArrayRegion函数将数据拷贝到一个数组中，GetStringRegion函数或GetStringUTFRegion可以从String拷贝大小不等的字符。
+
+##异常
+****
