@@ -131,4 +131,78 @@ JNI在方法使用上有两种方式，一种如下所示：
 类似的，你可以使用Set<Type>ArrayRegion函数将数据拷贝到一个数组中，GetStringRegion函数或GetStringUTFRegion可以从String拷贝大小不等的字符。
 
 ##异常
-****
+**当异常出现时，请不要继续向下执行**。代码应当注意到这些异常并返回，或者处理这些异常。
+
+当异常发生时，只有以下JNI方法允许调用：
+
+- DeleteGlobalRef
+- DeleteGlobalRef
+- DeleteLocalRef
+- DeleteWeakGlobalRef
+- ExceptionCheck
+- ExceptionClear
+- ExceptionDescribe
+- ExceptionOccurred
+- MonitorExit
+- PopLocalFrame
+- PushLocalFrame
+- Release<PrimitiveType>ArrayElements
+- ReleasePrimitiveArrayCritical
+- ReleaseStringChars
+- ReleaseStringCritical
+- ReleaseStringUTFChars
+
+很多JNI函数可以抛出异常，不过只是提供了一种很简单的检查方式。比如，如果NewString函数返回了一个非空的值，那么就不需要检查异常。然而，如果你调用一个方法，比如CallObjectMethod，那么就需要每次都检查一下异常，因为如果异常被抛出后，返回值是无效的。
+
+主要注意的是，由中断所抛出的异常不会释放本地栈帧，Android目前也不支持C++异常。JNI的Throw与ThrowNew结构也只是在当前的线程设置了一个异常指针。当异常发生时也只是返回到代码调用处，异常也不会被正确的注意与处理。
+
+本地代码可以通过ExceptionCheck函数或ExceptionOccurred函数捕获异常，并可以通过ExceptionClear函数清理这些异常。通常情况下，不处理这些异常会导致一些问题的出现。
+
+JNI中并没有与Throwable相对应的映射函数，所以，如果你想获得异常字符串，那么就需要先找到Throwable类，然后查找相关的getMessage "()Ljava/lang/String;"方法ID，然后调用这些方法，如果返回的值是非空的话，调用GetStringUTFChars函数来获得你想得到的异常字符串，可以将这些异常打印出来。
+
+##本地库
+你可以通过标准的System.loadLibrary函数加载共享库中的本地代码。推荐的获取本地代码的方法有：
+
+- System.loadLibrary()，该方法唯一的参数是一个简要的库名，所以如果要加载"libfubar.so"，你只需要传"fubar"即可。
+- 本地方法：jint JNI_OnLoad(JavaVM* vm, void* reserved);
+- 在JNI_OnLoad方法内部，注册所有的本地方法。如果将方法声明为"static"的话，那么方法名称将不会占用符号表的空间。
+
+如果JNI_OnLoad函数是由C++实现的话，那么它看起来应该是这个样子：
+```java
+jint JNI_OnLoad(JavaVM* vm, void* reserved)
+{
+    JNIEnv* env;
+    if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION_1_6) != JNI_OK) {
+        return -1;
+    }
+    // Get jclass with env->FindClass.
+    // Register methods with env->RegisterNatives.
+    return JNI_VERSION_1_6;
+}
+```
+
+你也可以通过System.load函数外加库的全限定名来加载本地库。
+
+使用JNI_OnLoad另一个需要注意的是：任何FindClass调用都会发生在类加载器的上下文环境中，该类加载器用于加载共享库。通常情况下，FindClass所用到的加载器位于解释栈的顶端，如果还没有加载器，那么它会使用系统的加载器。
+
+##64位的注意事项
+Android当前运行于32位的平台上。虽然理论上可以为64位的平台构建系统，但是目前它不是主要的目标。大多数情况下，这不是你需要担心的事情，但是如果要将指针存储于本地结构中的一个对象的Int属性上，那么这就很值得关注了。为了支持64位指针结构，**你需要将本地指针存储于一个Long属性中**。
+
+##不支持特性与向后兼容
+支持所有的JNI1.6特性，以及以下异常：
+- DefineClass 还没有实现。Android并没有使用Java的字节码以及类文件，所以传入二进制的类数据是不会执行的。
+
+如果需要兼容Android老的版本，那么应该检查以下部分：
+
+- **动态查询本地函数**
+ - 在Android 2.0之前，字符'$'在查找方法时不会被正确的转换为"_00024"。所以使用有关方法需要明确注册或者将内部类方法移出。
+- **分离线程**
+ - 在Android 2.0之前，无法使用pthread_key_create析构函数来避免"在退出之前必须分离线程"这项检查。
+- **弱的全局引用**
+ - 在Android 2.2之前，弱的全局引用还没有实现。之前的版本会拒绝使用它们。你可以使用Android平台版本来检测是否支持。
+ - 在Android 4.0之前，弱的全局引用只能被传入NewLocalRef, NewGlobalRef, 以及 DeleteWeakGlobalRef这几个函数。
+ - 从Android 4.0开始，弱的全局引用可以像其它JNI引用一样使用。
+- **本地引用**
+ - 在Android 4.0之前，本地引用实际上就是指针。在Android 4.0中添加了必要的中间角色，以便更好的支持垃圾回收器的工作，不过这意味着有很多JNI的bug在老版本上无法察觉。查看[JNI Local Reference Changes in ICS](http://android-developers.blogspot.com/2011/11/jni-local-reference-changes-in-ics.html)获取更多信息。
+- **通过GetObjectRefType检查引用类型**
+ - 在Android 4.0之前，由于直接指针的使用，无法正确的实现GetObjectRefType。我们通过弱的全局表、参数、本地表以及全局表进行查找。首先它会找到你的直接指针，它会返回它所检查的引用类型。这意味着，如果你在全局的jclass上作用GetObjectRefType，而这个jclass以一个隐性参数传给了一个静态本地方法，那么你将会获得JNILocalRefType而不是JNIGlobalRefType。
