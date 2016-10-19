@@ -27,3 +27,22 @@ Android所包含的安全策略有：
 
 正因为可能存在不可信资源，所以从外部存储器中处理数据时应当执行输入验证。我们强烈的建议不要在外部存储器上存储用于动态加载的可执行文件或者类文件。如果APP需要从外部存储器上接收可执行文件，那么这些文件应当是被签过名的，在加载之前也应当对这些签名进行验证。
 ###内容提供者
+ContentProvider提供了一种结构化的存储机制，这种机制可以对所有的应用程序形成一种约束。如果不打算使其它的应用程序访问你的ContentProvider，那么只需再程序的清单文件中标记对应的ContentProvider的属性android:exported=false即可。否则，设置android:exported=true便意味着其它应用程序可以访问其中的数据。
+
+在创建ContentProvider时便默认允许其它应用程序可以访问其中的数据，你可以对读或者写进行单一权限限制，也可以同时管理。
+
+如果使用ContentProvider只是为了在自身的APP之间共享数据，更加合理的方式是将android:protectionLevel属性值设置为"signature"。Signature权限不需要用户确认，所以这样可以提供良好的用户体验，以及更多的控制力。
+
+ContentProvider还可以通过android:grantUriPermissions属性提供更细粒度的访问能力。访问者应当在Intent中使用FLAG_GRANT_READ_URI_PERMISSION标志或FLAG_GRANT_WRITE_URI_PERMISSION标志进行访问。这些权限的范围可被[<grant-uri-permission element>](http://android.xsoftlab.net/guide/topics/manifest/grant-uri-permission-element.html)做更进一步的限制。
+
+当访问ContentProvider时，使用参数化方法比如query(), update(), 及delete()可以避免不可信来源的SQL注入。
+
+不要对写入权限的安全拥有错误的认知。考虑一下，写入权限允许执行SQL语句，这可能会使一些数据被确认。比如，一名攻击者可能会在通话记录中查找一个指定的电话号码是否存在，如果这条数据存在，那么攻击者只需进行修改便可得知结果。如果ContentProvider的数据结构可被猜测出，那么写入权限就相当于也同时提供了读取权限。
+
+##使用权限
+因为Android每个应用都处于沙箱之内，所以应用必须显式的共享资源与数据。这需要应用程序单独声明自有权限。
+
+###请求权限
+我们推荐应用程序所需的权限越好越好。
+###创建权限
+
