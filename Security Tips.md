@@ -66,3 +66,22 @@ ContentProvider还可以通过android:grantUriPermissions属性提供更细粒�
 - 如果权限的生成器没有安装的话，应用程序可能会请求权限。
 
 上面的每一条对于作为程序员的你都是一项重要的非技术性挑战，这样做可能会使用户感到困惑，这就是为什么我们不鼓励使用"dangerous"权限等级的原因。
+
+##网络安全
+网络传输本身就存在安全风险，因为它会包含用户的隐私数据。人们越来越关心移动设备的隐私问题，尤其是执行网络传输时，所以APP需要至始至终以最佳的安全方案保护用户的数据安全。
+
+###使用IP网络
+Android所处的网络环境与其它的Linux系统有着很大的不同。主要考虑的就是选用适用于敏感数据的协议。比如[HttpsURLConnection](http://android.xsoftlab.net/reference/javax/net/ssl/HttpsURLConnection.html)用于安全的WEB通信。我们推荐在支持HTTPS协议的服务器上使用HTTP，因为移动设备会频繁的连接到不可信网络，比如公共的Wi-Fi热点。
+
+经认证，Socket等级的加密通讯可以使用[SSLSocket](http://android.xsoftlab.net/reference/javax/net/ssl/SSLSocket.html)类轻易实现。鉴于Android设备会频繁的连接到不安全的无线网络，所以我们强力的建议对所有的应用程序都使用安全的网络实现。
+
+我们也见过一些应用在处理敏感的IPC上使用了localhost网络端口。我们不鼓励使用这种方式，因为这些接口能被其它应用程序访问的到。你应当使用Android的IPC机制。
+
+还有一个常见的问题就是，根证书重复用于验证从HTTP或者其它网络上下载的不可信数据。这也包括WebView以及HTTP请求响应的输入验证。
+
+###使用电话网络
+SMS(短消息服务)协议主要用于个人对个人之间的通讯，它并不适用于APP的数据传输。由于SMS的限制，我们强烈的推荐使用Google Cloud Messaging(GCM)及IP网络来传输服务器与设备之间的数据。
+
+要注意，SMS既没有对网络和设备进行加密也没有对其进行相关验证。尤其是，任何的SMS接收器应当考虑到会有一位恶意的用户会发送SMS给你的应用，不要相信没有验证过的SMS数据，并用它们来执行一些敏感操作。还有，你应当意识到SMS可能会在网络上被拦击并被篡改。在Android设备内，SMS消息是由广播意图传送的，所以这些数据可以被拥有[READ_SMS](http://android.xsoftlab.net/reference/android/Manifest.permission.html#READ_SMS)权限的应用程序读取到。
+
+##执行输入验证
