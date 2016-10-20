@@ -52,5 +52,17 @@ ContentProvider还可以通过android:grantUriPermissions属性提供更细粒�
 不要泄露受保护的权限数据。这种情况仅会发生在通过IPC暴露数据时。因为它拥有特殊的权限，并且对于任何的IPC接口的客户端也没有要求提供该权限。
 
 > More details on the potential impacts, and frequency of this type of problem is provided in this research paper published at USENIX:[http://www.cs.berkeley.edu/~afelt/felt_usenixsec2011.pdf](http://www.cs.berkeley.edu/~afelt/felt_usenixsec2011.pdf)
-###创建权限
 
+###创建权限
+通常情况下应当尽量少的使用权限，少用权限就意味着更安全。创建权限这种事情对于大多数应用来说是用不到的，因为系统定义的权限足以涵盖所有情况，这些权限可以正确的做出访问检查。
+
+如果必须创建权限，考虑是否可以使用"signature"保护等级完成你的所需任务。"signature"会将自身完全暴露给用户，只允许具有相同签名的应用程序访问。
+
+如果要创建"dangerous"保护等级的权限，那么有些东西需要考虑在内：
+
+- 权限必须提供一段简短的描述该权限安全的字符串。
+- 描述权限的字符串必须提供不同地区的语言。
+- 如果权限的描述含糊不清或者用户认为这会为其带来风险，那么用户可能会选择不安装应用。
+- 如果权限的生成器没有安装的话，应用程序可能会请求权限。
+
+上面的每一条对于作为程序员的你都是一项重要的非技术性挑战，这样做可能会使用户感到困惑，这就是为什么我们不鼓励使用"dangerous"权限等级的原因。
