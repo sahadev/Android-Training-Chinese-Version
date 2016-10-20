@@ -43,6 +43,14 @@ ContentProvider还可以通过android:grantUriPermissions属性提供更细粒�
 因为Android每个应用都处于沙箱之内，所以应用必须显式的共享资源与数据。这需要应用程序单独声明自有权限。
 
 ###请求权限
-我们推荐应用程序所需的权限越好越好。
+我们推荐应用程序所需的权限越好越好。这样可以降低权限滥用的风险，也更易让用户接受，也可以减少黑客的攻击入口。通常情况下，如果某个权限不是必要的，那就不要去请求它。
+
+如果应用程序可以做到不需要任何权限，那么这是最完美的。比如，如果需要通过访问设备信息的方式来创建唯一标识符的话，我们更推荐[GUID](http://android.xsoftlab.net/reference/java/util/UUID.html)。又比如，相比于将数据存储于外部存储器，我们更推荐内部存储器。
+
+另外在请求权限时，可以使用\<permissions>来保护IPC。IPC对于安全特别敏感、薄弱，并且它会被暴露给其它应用程序，比如ContentProvider。 除了可能需要用户确认的权限之外，我们更推荐使用访问控制，因为这些权限可能会使用户感到困惑、不解。比如，可以考虑对个人开发者开发的应用程序为IPC通讯使用"[signature](http://android.xsoftlab.net/guide/topics/manifest/permission-element.html#plevel)"的权限保护等级。
+
+不要泄露受保护的权限数据。这种情况仅会发生在通过IPC暴露数据时。因为它拥有特殊的权限，并且对于任何的IPC接口的客户端也没有要求提供该权限。
+
+> More details on the potential impacts, and frequency of this type of problem is provided in this research paper published at USENIX:[http://www.cs.berkeley.edu/~afelt/felt_usenixsec2011.pdf](http://www.cs.berkeley.edu/~afelt/felt_usenixsec2011.pdf)
 ###创建权限
 
