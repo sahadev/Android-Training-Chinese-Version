@@ -84,4 +84,42 @@ SMS(短消息服务)协议主要用于个人对个人之间的通讯，它并不
 
 要注意，SMS既没有对网络和设备进行加密也没有对其进行相关验证。尤其是，任何的SMS接收器应当考虑到会有一位恶意的用户会发送SMS给你的应用，不要相信没有验证过的SMS数据，并用它们来执行一些敏感操作。还有，你应当意识到SMS可能会在网络上被拦击并被篡改。在Android设备内，SMS消息是由广播意图传送的，所以这些数据可以被拥有[READ_SMS](http://android.xsoftlab.net/reference/android/Manifest.permission.html#READ_SMS)权限的应用程序读取到。
 
-##执行输入验证
+##输入验证
+无论程序运行在哪个平台上，没有执行充分的输入验证都是影响程序安全的主要原因之一。Android提供了平台等级的安全策略，这可以降低应用程序输入验证问题的暴露率，应用程序应当尽可能的使用这些平台特性。还应该注意：安全性语言的选择倾向于减少输入验证问题的可能性。
+
+如果你在使用本地代码，那么从文件中读取的数据、从网络上接收的数据或从IPC接收的数据都可能会引起安全问题。最常见的问题就是缓冲区溢出，使用释放后的对象等等。Android提供了大量的相关技术手段比如ASLR(Address Space Layout Randomization)、DEP(Data Execution Prevention)，这些技术手段可以降低这些错误的出现频率，但是它们不会解决根本的内在问题。你可以谨慎的处理指针或管理缓冲区来防止这些问题的出现。
+
+如果使用SQL数据库或者ContentProvider进行数据查询，那么SQL注入可能是个问题。避免这些问题最好使用参数化的查询方法。将权限降为只读或只写可以降低SQL注入的相关风险。
+
+如果不能够使用以上提及的安全建议，那么我们强烈推荐使用结构良好的数据格式，并在使用时对这些数据格式进行验证。
+
+##处理用户数据
+通常来说，对于用户的数据安全最好的方法就是尽量少使用可以访问到敏感数据或者用户数据的API。如果可以避免存储或者传输这些信息，那么就不要传输这些数据。可考虑应用程序是否能够实现这么一种逻辑：使用数据的哈希码或者一种不可逆的数据形态。比如，程序可能会实现这么一种逻辑：将电子邮件地址的哈希码作为一个关键的值，这样可以避免使用本身的电子邮件地址。这可以降低暴露数据的机会，这也可以降低攻击者入侵应用程序的机会。
+
+如果程序需要访问用户的个人信息，比如密码或者用户名等等，要记住一些组件可能会要求你提供相关的隐私政策，来解释这些数据的使用与存储。所以接下来数据访问实践可以简化遵循规则。
+
+你还应当考虑应用程序是否有无意中将用户的个人数据暴露给了第三方。如果你不清楚这些第三方组件或服务为什么要使用用户的信息，那么就不要提供给它们。通常降低个人信息的访问可以降低这块的安全风险。
+
+如果必须要访问敏感数据，那么评估一下这些信息是否有必要必须传输到服务器，或者是否这些操作只在客户端执行。考虑凡是涉及到用户敏感数据的代码都在客户端执行，这样可以避免不必要的网络传输和安全泄漏问题。
+
+还有，要确保没有将用户数据通过IPC暴露给其它应用程序、全局可读写文件或者网络Socket。
+
+如果需要GUID，可以创建一个大的唯一的数据将其保存下来。不要使用与电话有关的数字，比如电话号码、IMEI，这些信息可能会与用户信息有关。
+
+写入设备日志时要当心。在Android中，日志是共享资源，可被具有[READ_LOGS](http://android.xsoftlab.net/reference/android/Manifest.permission.html#READ_LOGS)权限的应用读取到。尽管日志数据是临时的，但是不恰当的用户信息日志可能会无意中将信息泄露给其它应用程序。
+
+##WebView的使用
+因为WebView会解析像HTML和JavaScript这样的web内容，所以不正确的使用会带来常见的安全问题。Android提供了大量机制来收缩这些潜在问题的范围，比如通过限制WebView的能力来达到最低的运行需求。
+
+如果程序没有直接使用到WebView中的JavaScript，那么不要调用[setJavaScriptEnabled()](http://android.xsoftlab.net/reference/android/webkit/WebSettings.html#setJavaScriptEnabled(boolean))。一些示例代码可能会使用该方法，所以如果不需要的话，在你的程序中关闭它。默认情况下，WebView不会执行JavaScript，所以不会发生跨站脚本攻击。
+
+使用[addJavaScriptInterface()](http://android.xsoftlab.net/reference/android/webkit/WebView.html#addJavascriptInterface(java.lang.Object, java.lang.String))需要特别当心，因为它会允许JavaScript调用预留给Android原生应用的方法。如果你使用它，要确认所有的Web的相关内容都是可信的。如果不可信的内容允许进入，那么不可信的 JavaScript 可能会调用App内的相关方法。一般我们推荐在APK内包含JavaScript的时候使用addJavaScriptInterface()。
+
+如果程序通过WebView访问敏感数据，你可能需要使用[clearCache()](http://android.xsoftlab.net/reference/android/webkit/WebView.html#clearCache(boolean))方法来删除存储在本地的所有文件。我们可以使用HTTP头部的某些属性比如no-cache来表示应用程序不应当缓存特别的内容。
+
+Android 4.4之前版本的webkit含有大量的安全问题。如果App运行在这些版本上，应当确认WebView所渲染的内容都是可信的。如果应用必须渲染开放的Web内容，考虑实现一个独有的渲染器，这样可以及时更新相关的安全补丁。
+
+##管理证书
+通常来说，我们不推荐频繁的要求用户凭证，推荐使用授权令牌。
+
+用户名及密码通常不应该存在本地。
