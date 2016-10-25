@@ -1,4 +1,4 @@
-原文地址：[http://android.xsoftlab.net/training/articles/security-tips.html#IPC](http://android.xsoftlab.net/training/articles/security-tips.html#IPC)
+原文地址：[http://android.xsoftlab.net/training/articles/security-tips.html](http://android.xsoftlab.net/training/articles/security-tips.html)
 
 Android系统内置的安全策略可以有效的降低应用程序的安全问题。所以默认创建的应用程序已经包含了一定程度的安全保护措施。
 
@@ -122,4 +122,10 @@ Android 4.4之前版本的webkit含有大量的安全问题。如果App运行在
 ##管理证书
 通常来说，我们不推荐频繁的要求用户凭证，推荐使用授权令牌。
 
-用户名及密码通常不应该存在本地。
+用户名及密码通常不应该存在本地。应当使用用户输入的用户名及密码进行初始化验证，然后使用一个权限Token进行通信。
+
+如果一个账户需要被多个程序访问，那么应当使用[AccountManager](http://android.xsoftlab.net/reference/android/accounts/AccountManager.html)。如果可能的话，使用[AccountManager](http://android.xsoftlab.net/reference/android/accounts/AccountManager.html)与服务进行交互，绝不要将密码存在设备上。
+
+如果证书只是用作于你创建的应用程序，那么可以使用[checkSignature()](http://android.xsoftlab.net/reference/android/content/pm/PackageManager.html#checkSignatures(int,%20int))方法进行程序访问验证。如果只有一个程序使用了证书，那么[KeyStore](http://android.xsoftlab.net/reference/java/security/KeyStore.html)可能更适合你。
+
+##使用密码
