@@ -129,3 +129,14 @@ Android 4.4之前版本的webkit含有大量的安全问题。如果App运行在
 如果证书只是用作于你创建的应用程序，那么可以使用[checkSignature()](http://android.xsoftlab.net/reference/android/content/pm/PackageManager.html#checkSignatures(int,%20int))方法进行程序访问验证。如果只有一个程序使用了证书，那么[KeyStore](http://android.xsoftlab.net/reference/java/security/KeyStore.html)可能更适合你。
 
 ##使用密码
+除了数据隔离、文件系统加密、安全通信通道等保护手段之外，Android还提供了一系列通过算法加密的安全保护措施。
+
+通常情况下，Android内置的最高等级的安全实现已经可以支持各种安全情况。如果需要从一个已知的位置接受一个文件，那么HTTPS URI已经足够。如果需要一条安全通道，考虑使用[HttpsURLConnection](http://android.xsoftlab.net/reference/javax/net/ssl/HttpsURLConnection.html)或[SSLSocket](http://android.xsoftlab.net/reference/javax/net/ssl/SSLSocket.html)。
+
+如果发现确实需要实现自己的安全协议，不建议自己实现加密算法。而应当使用已有的加密算法比如在[Cipher](http://android.xsoftlab.net/reference/javax/crypto/Cipher.html)中提供的AES加密算法或RSA加密算法。
+
+使用安全随机数生成器[SecureRandom](http://android.xsoftlab.net/reference/java/security/SecureRandom.html)来初始化密钥[KeyGenerator](http://android.xsoftlab.net/reference/javax/crypto/KeyGenerator.html)。如果不使用由[SecureRandom](http://android.xsoftlab.net/reference/java/security/SecureRandom.html)生成的密钥的话，则会大大减弱加密算法的健壮性，也更容易遭受线下攻击。
+
+如果需要将密钥存在本地以便后续使用，那么可以使用[KeyStore](http://android.xsoftlab.net/reference/java/security/KeyStore.html)类似的加密机制。
+
+##使用进程间通信
