@@ -140,3 +140,26 @@ Android 4.4之前版本的webkit含有大量的安全问题。如果App运行在
 如果需要将密钥存在本地以便后续使用，那么可以使用[KeyStore](http://android.xsoftlab.net/reference/java/security/KeyStore.html)类似的加密机制。
 
 ##使用进程间通信
+一些App尝试使用传统的Linux技术比如网络Socket和共享文件来实现IPC。我们鼓励对此使用Android为IPC实现的系统功能，例如[Intent](http://android.xsoftlab.net/reference/android/content/Intent.html)，[Binder](http://android.xsoftlab.net/reference/android/os/Binder.html)，[Messenger](http://android.xsoftlab.net/reference/android/os/Messenger.html)和[BroadcastReceiver](http://android.xsoftlab.net/reference/android/content/BroadcastReceiver.html)。Android的IPC机制允许你验证连接到你IPC的程序的身份，并且可以对每个IPC机制设置安全策略。
+
+许多安全元素通过IPC机制共享。如果你的IPC机制的目的不是为了供其他应用程序使用，那么请将对应元素的android:exported的属性设置为false。这对于由相同UID的多进程组成的应用很有帮助，或者对后期再开启该功能也有一定的帮助。
+
+如果IPC的目的是为了可被其他应用访问，你可以通过使用[< permission>](http://android.xsoftlab.net/guide/topics/manifest/permission-element.html)元素指定安全策略。如果IPC只是为了在持有相同key的两个自有应用中使用，那么android:protectionLevel="signature"则更为适合。
+
+###使用Intent
+Intent是同步IPC的首选机制。这取决于程序的需求，你可能会使用[sendBroadcast()](http://android.xsoftlab.net/reference/android/content/Context.html#sendBroadcast(android.content.Intent)), [sendOrderedBroadcast()](http://android.xsoftlab.net/reference/android/content/Context.html#sendOrderedBroadcast(android.content.Intent,%20java.lang.String))或者显式Intent来指定应用程序组件。
+
+要注意，由于有序广播可以被接收方消耗掉，所以这些广播可能不会被分发给所有的应用程序。如果你发送了一个广播，而该广播必须被指定接收器接收的，那么必须使用显式Intent，并且该Intent还需指明广播接收器的名称。
+
+发送Intent的一方可以验证接收方是否允许非空的权限方法调用。只有含有该权限的应用才会接收到该Inetnt。如果广播中的Intent的数据是敏感的，那么应当考虑这里所使用的权限不会被非法的应用程序拦截。在这种情况下，你应当考虑直接调用接收器，而不是使用广播。
+
+> **Note:**Intent filters不应当被视作为一种安全特性：因为组件可能会由显式的Intent调起。你应当在收到Intent的地方执行输入验证来确认该Intent是否被格式化为适用于调用广播接收器，服务或者Activity的格式。
+
+###使用服务
+[Service](http://android.xsoftlab.net/reference/android/app/Service.html)经常被用作支持其他程序的功能。每个[Service](http://android.xsoftlab.net/reference/android/app/Service.html)必须在它的清单文件中有相应的声明。
+
+默认情况下，Service不是开放的，也不能够被其它应用程序调起。然而，如果在[Service](http://android.xsoftlab.net/reference/android/app/Service.html)的声明中添加了IntentFilter，那么默认就会被暴露出去。最好的办法就是显式的声明[android:exported](http://android.xsoftlab.net/guide/topics/manifest/service-element.html#exported)属性为你需要的属性。[Service](http://android.xsoftlab.net/reference/android/app/Service.html)还可以由android:permission属性保护。如果这么做了，那么其它的程序则需要在它们的清单文件中声明对应的权限才可以启动、停止或者绑定该服务。
+
+[Service](http://android.xsoftlab.net/reference/android/app/Service.html)还可以保护在其权限内的IPC调用，在执行这个调用的实现之前调用[checkCallingPermission()](http://android.xsoftlab.net/reference/android/content/Context.html#checkCallingPermission(java.lang.String))。我们通常推荐使用在清单文件中声明的权限，因为有很多漏洞会被忽略。
+
+###使用Binder及Messenger接口
