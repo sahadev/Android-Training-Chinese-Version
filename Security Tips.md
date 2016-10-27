@@ -147,7 +147,7 @@ Android 4.4之前版本的webkit含有大量的安全问题。如果App运行在
 如果IPC的目的是为了可被其他应用访问，你可以通过使用[< permission>](http://android.xsoftlab.net/guide/topics/manifest/permission-element.html)元素指定安全策略。如果IPC只是为了在持有相同key的两个自有应用中使用，那么android:protectionLevel="signature"则更为适合。
 
 ###使用Intent
-Intent是同步IPC的首选机制。这取决于程序的需求，你可能会使用[sendBroadcast()](http://android.xsoftlab.net/reference/android/content/Context.html#sendBroadcast(android.content.Intent)), [sendOrderedBroadcast()](http://android.xsoftlab.net/reference/android/content/Context.html#sendOrderedBroadcast(android.content.Intent,%20java.lang.String))或者显式Intent来指定应用程序组件。
+Intent是异步IPC的首选机制。这取决于程序的需求，你可能会使用[sendBroadcast()](http://android.xsoftlab.net/reference/android/content/Context.html#sendBroadcast(android.content.Intent)), [sendOrderedBroadcast()](http://android.xsoftlab.net/reference/android/content/Context.html#sendOrderedBroadcast(android.content.Intent,%20java.lang.String))或者显式Intent来指定应用程序组件。
 
 要注意，由于有序广播可以被接收方消耗掉，所以这些广播可能不会被分发给所有的应用程序。如果你发送了一个广播，而该广播必须被指定接收器接收的，那么必须使用显式Intent，并且该Intent还需指明广播接收器的名称。
 
@@ -163,3 +163,34 @@ Intent是同步IPC的首选机制。这取决于程序的需求，你可能会�
 [Service](http://android.xsoftlab.net/reference/android/app/Service.html)还可以保护在其权限内的IPC调用，在执行这个调用的实现之前调用[checkCallingPermission()](http://android.xsoftlab.net/reference/android/content/Context.html#checkCallingPermission(java.lang.String))。我们通常推荐使用在清单文件中声明的权限，因为有很多漏洞会被忽略。
 
 ###使用Binder及Messenger接口
+[Binder](http://android.xsoftlab.net/reference/android/os/Binder.html)、[Messenger](http://android.xsoftlab.net/reference/android/os/Messenger.html)是远程过程调用的首要IPC机制。它们提供了一种定义良好的接口：可以进行端对端相互认证。
+
+我们强烈推荐以不需要特定的权限检查的方式设计接口。由于[Binder](http://android.xsoftlab.net/reference/android/os/Binder.html)、[Messenger](http://android.xsoftlab.net/reference/android/os/Messenger.html)并不是在应用的清单文件中声明过的，因此不能对其采用特定权限。它们的权限通常来自于对应的Service或Activity所声明的权限。如果你创建了一个用于请求验证或者访问控制器的接口，那么这些控制器必须显式的添加在[Binder](http://android.xsoftlab.net/reference/android/os/Binder.html)、[Messenger](http://android.xsoftlab.net/reference/android/os/Messenger.html)的接口中。
+
+如果创建了一个需要访问控制器的接口，使用[checkCallingPermission()](http://android.xsoftlab.net/reference/android/content/Context.html#checkCallingPermission(java.lang.String))验证调用者是否含有所需的权限。这在访问服务的远端代理之前尤其重要，正如你的应用的身份需要传给其它接口一样。如果调用一个由Service提供的接口，那么如果你没有访问给定服务所需的权限，那么[bindService()](http://android.xsoftlab.net/reference/android/content/Context.html#bindService(android.content.Intent, android.content.ServiceConnection, int))的调用可能会失败。如果调用一个由自身APP提供的一个本地的接口，那么[clearCallingIdentity()](http://android.xsoftlab.net/reference/android/os/Binder.html#clearCallingIdentity())则可以满足内部安全检查的需求。
+
+有关更多执行与服务有关的IPC的相关信息，请参见[Bound Services](http://android.xsoftlab.net/guide/components/bound-services.html)。
+
+###使用广播接收器
+[BroadcastReceiver](http://android.xsoftlab.net/reference/android/content/BroadcastReceiver.html)用于处理由Intent发起的异步请求。
+
+默认情况下，接收器可以被任何应用调起。如果你的广播接收器的作用是给其它程序使用，那么可能需要对接收器采取一些安全措施：在清单文件中添加相应的安全权限。这可以防止没有正确权限的应用程序发送Intent给广播接收器。
+
+##动态加载代码
+Dalvik是Android的运行时虚拟机。虽然Dalvik专用于Android，但是其它虚拟机上的相关安全问题也同样适用于Android。一般不需要关心与虚拟机相关的安全问题，因为Android的应用程序运行在安全的沙箱环境中，所以系统上的其它进程访问不到程序的代码或者私有数据。
+
+如果你对更深的虚拟机安全课题感兴趣，那么推荐熟悉一些现有的有关这一课题的相关文献。其中最受欢迎的两个资源如下：
+- [http://www.securingjava.com/toc.html](http://www.securingjava.com/toc.html)
+- [https://www.owasp.org/index.php/Java_Security_Resources](https://www.owasp.org/index.php/Java_Security_Resources)
+
+这篇文档主要关注于Android的特殊之处和与其它虚拟机环境有什么不同。对于对其它虚拟机很有经验的开发者来说，这里有两个很主要的Android的不同之处：
+
+- 一些虚拟机，比如JVM或.net运行时，扮演了一个安全边界的角色，从底层操作系统将代码、功能隔离。然而在Android中Dalvik虚拟机并没有这样的功能——应用程序沙箱实现与操作系统层面，所以Dalvik可以与应用的本地代码进行交互，而没有任何的安全限制。
+- 由于移动设备有限的存储空间，一些开发者可能需要通过模块化构建应用程序，并使用动态加载技术。如果这么做，那么则需要考虑在哪接收应用的逻辑代码？又应当将这些代码存在哪？不要使用没有经过验证的代码，比如从不安全的网络资源上或者是外部存储器中加载的代码，因为这些代码很有可能会被其它程序篡改。
+
+##本地代码的安全
+一般我们推荐使用Android SDK来进行应用程序开发，而不是使用本地代码开发。由本地代码构建的程序会更加负责，也去少了灵活性，也更容易产生像缓冲区溢出等常见的内存泄露错误。
+
+因为Android建立于Linux kernel基础之上，所以如果使用本地代码的话，那么Linux开发中所遇到的安全问题也同样适用于此。由于Linux安全相关超出了本文的范围，所以这里提供了很受欢迎的“Linux和Unix如何安全编程”的相关资源，相关地址：[http://www.dwheeler.com/secure-programs](http://www.dwheeler.com/secure-programs).
+
+Android与其它大部分Linux环境最大的不同就在于程序沙箱。在Android中，所有的程序都运行在程序沙箱呢，也包括那些本地代码。在最基本的层面上，对熟悉Linux开发的程序来说，不同之处就是Android的每个应用程序都有一个唯一UID，也拥有少量的权限。如果要使用本地代码开发的话，那么应当对应用的权限极为了解才对。
