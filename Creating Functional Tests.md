@@ -1,11 +1,11 @@
 原文地址：[http://android.xsoftlab.net/training/activity-testing/activity-functional-testing.html](http://android.xsoftlab.net/training/activity-testing/activity-functional-testing.html)
 
-功能性测试包括了犹如用户直接操作之类的应用组件验证。例如，开发者可以通过功能性测试来验证在用户执行UI交互之后，Activity是否正确的启动了目标Activity。
+功能性测试包括模拟用户操作之类的应用组件验证。例如，开发者可以通过功能性测试来验证在用户执行UI操作之后Activity是否成功的启动了目标Activity。
 
-为Activity创建功能性测试，测试类应当继承[ActivityInstrumentationTestCase2](http://android.xsoftlab.net/reference/android/test/ActivityInstrumentationTestCase2.html)。与ActivityUnitTestCase不同，[ActivityInstrumentationTestCase2](http://android.xsoftlab.net/reference/android/test/ActivityInstrumentationTestCase2.html)可以与Android系统通信，也可以发送键盘输入事件与点击事件给UI组件。
+为Activity创建功能性测试，测试类应当继承[ActivityInstrumentationTestCase2](http://android.xsoftlab.net/reference/android/test/ActivityInstrumentationTestCase2.html)。与ActivityUnitTestCase不同，[ActivityInstrumentationTestCase2](http://android.xsoftlab.net/reference/android/test/ActivityInstrumentationTestCase2.html)可以与Android系统通信，也可以使应用程序接收键盘输入事件与屏幕点击事件。
 
-##添加测试方法验证功能行为
-一般功能性测试可能包含以下目的：
+##验证功能行为
+一般功能性测试可能会有以下测试目标：
 
 - 验证在某个UI控制器被按下后，目标Activity是否被启动。
 - 验证目标Activity是否将在启动之前的用户输入数据正确的显示。
