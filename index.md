@@ -8,1000 +8,317 @@
 
 **Tips : 同时，本目录可以作为安卓功能查询手册，可以使你通过安卓系统提供的某些功能完成你意想不到的效果。**
 
-----------
 
-#目录#
-
-----------
-
-##入门指南 ##
-
-
-
-- ### 构建你的第一款应用 ###
-
-
-
- -  #### 创建一个安卓工程  ####
-
-
-
- -  #### 运行你的应用 ####
-
-
-
- -  #### 创建简单的用户界面 ####
-
-
-
- -  #### 启动另一个Activity  ####
-
-
-
- -  #### 创建一个安卓工程 ####
-
-
-
--  ### 添加ActionBar ###
-
-
-
- -  #### 设置ActionBar  ####
-
-
-
- -   #### 添加Action按钮  ####
-
-
-
- -  #### 设置ActionBar的风格  ####
-
-
-
- -  #### 设置ActionBar的浮层效果  ####
-
-
-
--  ### 支持不同的设备  ###
-
-
-
- -  #### 支持不同的语言  ####
-
-
-
- -  #### 支持不同的屏幕大小及密目  ####
-
-
-
- -  #### 支持不同的平台版本  ####
-
-
-
-
-
--  ###管理Activity的生命周期  ####
-
-
-
-  - #### 启动一个Activity  ####
-
-
-
-  - #### 暂停和恢复一个Activity  ####
-
-
-
-
-
-  - #### 停止和重新启动一个Activity
-
-
-
-  - #### 重新创建一个Activity
-
- 
-
-
-
--  ### 使用Fragment构建动态的UI  ####
-
-
-
-  - #### 创建一个Fragment
-
-
-
-  - #### 构建灵活的UI
-
-
-
-  - #### Fragment之间的通信
-
-
-
--  ### 存储数据  ####
-
-
-
-  - #### 存储键值对集合
-
-
-
-  - #### 存储文件
-
-
-
-  - #### 存储数据库数据
-
-
-
-
-
--  ### 与其它应用进行交互  ####
-
-
-
-  - #### 启动其它应用完成辅助功能
-
-
-
-  - #### 从另一个Activity获得返回结果
-
-
-
-  - #### 允许其它APP启动你的Activity
-
-
-
-
+#入门指南-目录#
 
 ----------
+### 构建第一款安卓应用
 
+ -  #### [工程创建](http://blog.csdn.net/sahadev_/article/details/50932308)
 
+ -  #### [程序运行](http://blog.csdn.net/sahadev_/article/details/50933251)
 
-## 在APP内使用内容共享 ##
+ -  #### [创建用户界面](http://blog.csdn.net/sahadev_/article/details/50946753)
 
+ -  #### [启动另一个Activity](http://blog.csdn.net/sahadev_/article/details/50953034)
 
+### 添加ActionBar
 
+ -  #### [设置ActionBar](http://blog.csdn.net/sahadev_/article/details/50957193)
 
+ -  #### [添加Action按钮](http://blog.csdn.net/sahadev_/article/details/50957547)
 
- - ### 共享简单的数据 ###
+ -  #### [自定义ActionBar样式](http://blog.csdn.net/sahadev_/article/details/50964688)
 
+ -  #### [ActionBar浮层效果](http://blog.csdn.net/sahadev_/article/details/50965206)
 
+###支持不同的设备
 
-  - #### 发送简单的数据给其它应用
+ -  #### [支持不同的语言](http://blog.csdn.net/sahadev_/article/details/50965604)
 
+ -  #### [支持不同的屏幕](http://blog.csdn.net/sahadev_/article/details/50965993)
 
+ -  #### [支持不同的平台版本](http://blog.csdn.net/sahadev_/article/details/50972440)
 
-  - #### 从其它应用接收简单的数据
+###管理Activity的生命周期
 
+  - #### [启动一个Activity](http://blog.csdn.net/sahadev_/article/details/50974201)
 
+  - #### [暂停和恢复Activity](http://blog.csdn.net/sahadev_/article/details/50978733)
 
-  - #### 在ActionBar上轻松添加共享功能
+  - #### [停止和重启Activity](http://blog.csdn.net/sahadev_/article/details/50980036)
 
+  - #### [Activity的重建](http://blog.csdn.net/sahadev_/article/details/50982299)
 
+### 使用Fragment构建动态UI
 
+  - #### [创建Fragment](http://blog.csdn.net/sahadev_/article/details/50983216)
 
+  - #### [构建灵活的UI](http://blog.csdn.net/sahadev_/article/details/50991491)
 
+  - #### [Fragment间的通信](http://blog.csdn.net/sahadev_/article/details/50994307)
 
+### 存储数据
 
- - ### 共享文件
+  - #### [键值对序列存储](http://blog.csdn.net/sahadev_/article/details/50997484)
 
+  - #### [文件存储](http://blog.csdn.net/sahadev_/article/details/50999605)
 
+  - #### [数据库存储](http://blog.csdn.net/sahadev_/article/details/51007796)
 
-  - #### 配置文件共享框架
+###与其它APP交互
 
+  - #### [将用户带到第三方APP](http://blog.csdn.net/sahadev_/article/details/51008299)
 
+  - #### [从另一个Activity获取返回结果](http://blog.csdn.net/sahadev_/article/details/51008726)
 
-  - #### 共享文件
+  - #### [允许三方APP启动你的Activity](http://blog.csdn.net/sahadev_/article/details/51017143)
 
+### 分享简单数据
 
+  - #### [添加简单的分享行为](http://blog.csdn.net/sahadev_/article/details/51075226)
 
-  - #### 请求一个被共享的文件
+  - #### [发送简单数据给其它APP](http://blog.csdn.net/sahadev_/article/details/51025956)
 
+  - #### [从其它APP接收简单数据](http://blog.csdn.net/sahadev_/article/details/51027177)
 
+### 分享文件
 
-  - #### 接收文件信息
+  - #### [配置文件共享](http://blog.csdn.net/sahadev_/article/details/51084019)
 
+  - #### [分享一个文件](http://blog.csdn.net/sahadev_/article/details/51087170)
 
+  - #### [请求一个共享文件](http://blog.csdn.net/sahadev_/article/details/51087235)
 
+  - #### [获取文件信息](http://blog.csdn.net/sahadev_/article/details/51087259)
 
+### 通过NFC共享文件
 
- - ### 使用NFC功能共享文件
+  - #### [发送文件到另一台设备](http://blog.csdn.net/sahadev_/article/details/51088547)
 
-  - #### 发送文件到其它设备
+  - #### [从其它设备接收文件](http://blog.csdn.net/sahadev_/article/details/51112529)
 
+### 管理音频播放
 
+  - #### [控制APP的音量与播放](http://blog.csdn.net/sahadev_/article/details/51123554)
 
-  - #### 从其它设备接收文件
+  - #### [管理音频焦点](http://blog.csdn.net/sahadev_/article/details/51153985)
 
+  - #### [音频输出硬件的处理](http://blog.csdn.net/sahadev_/article/details/51168446)
 
+### 调用相机
 
+  - #### [简单拍照](http://blog.csdn.net/sahadev_/article/details/51191841)
 
+  - #### [简单摄像](http://blog.csdn.net/sahadev_/article/details/51192253)
 
+  - #### [控制相机](http://blog.csdn.net/sahadev_/article/details/51193619)
 
+### 打印内容
 
-----------
+  - #### [图像打印](http://blog.csdn.net/sahadev_/article/details/51296272)
 
+  - #### [HTML文档打印](http://blog.csdn.net/sahadev_/article/details/51306578)
 
+  - #### [自定义文档打印](http://blog.csdn.net/sahadev_/article/details/51313384)
 
-## 在APP内使用多媒体 ##
+### 高效显示位图
 
+  - #### [在加载大位图](http://blog.csdn.net/sahadev_/article/details/51317340)
 
+  - #### [在非UI线程中处理图片](http://blog.csdn.net/sahadev_/article/details/51325694)
 
- - ### 控制音频播放
+  - #### [位图缓存](http://blog.csdn.net/sahadev_/article/details/51365978)
 
+  - #### [管理位图内存](http://blog.csdn.net/sahadev_/article/details/51325694)
 
+### OpenGL绘图
 
-  - #### 控制你APP的音量以及回放
+  - #### [环境配置](http://blog.csdn.net/sahadev_/article/details/51440459)
 
+  - #### [图形定义](http://blog.csdn.net/sahadev_/article/details/51469262)
 
+  - #### [图形绘制](http://blog.csdn.net/sahadev_/article/details/51475424)
 
-  - #### 管理音频焦点
+  - #### [应用投影与相机视图](http://blog.csdn.net/sahadev_/article/details/51485391)
 
+  - #### [添加动态效果](http://blog.csdn.net/sahadev_/article/details/51493576)
 
+  - #### [响应触摸事件](http://blog.csdn.net/sahadev_/article/details/51500862)
 
-  - #### 管理好音频输出设备
+###**[《Android官方开发文档Training系列课程中文版》的中期翻译计划](http://blog.csdn.net/sahadev_/article/details/51514058)**
 
+### 动画视图
 
+  - #### [转场框架介绍](http://blog.csdn.net/sahadev_/article/details/51519729)
 
- 
+  - #### [场景创建](http://blog.csdn.net/sahadev_/article/details/51524968)
 
- - ### 拍照/捕获图像
+  - #### [应用场景](http://blog.csdn.net/sahadev_/article/details/51563491)
 
-  - #### 简单拍照
+  - #### [创建自定义转场动画](http://blog.csdn.net/sahadev_/article/details/51580912)
 
+### 连接无线设备
 
+  - #### [网络服务搜索功能](http://blog.csdn.net/sahadev_/article/details/51584759)
 
-  - #### 简单录像
+  - #### [通过WIFI创建P2P连接](http://blog.csdn.net/sahadev_/article/details/51585461)
 
+  - #### [通过P2P搜索网络服务](http://blog.csdn.net/sahadev_/article/details/51586568)
 
+### 网络操作
 
-  - #### 控制你的录像机
+  - #### [网络连接](http://blog.csdn.net/sahadev_/article/details/51590290)
 
+  - #### [网络管理](http://blog.csdn.net/sahadev_/article/details/51590642)
 
+  - #### [XML解析](http://blog.csdn.net/sahadev_/article/details/51654668)
 
+### 通知用户
 
+  - #### [构建通知](http://blog.csdn.net/sahadev_/article/details/51702150)
 
+  - #### [创建不同导航方式的Activity](http://blog.csdn.net/sahadev_/article/details/51713542)
 
+  - #### [更新或移除通知](http://blog.csdn.net/sahadev_/article/details/51713673)
 
- - ### 打印内容
+  - #### [大视图通知](http://blog.csdn.net/sahadev_/article/details/51714799)
 
-  - #### 打印照片
+  - #### [在通知中显示进度](http://blog.csdn.net/sahadev_/article/details/51722965)
 
+### 多样屏幕
 
+  - #### [支持不同的屏幕尺寸](http://blog.csdn.net/sahadev_/article/details/51746119)
 
-  - #### 打印Html文档
+  - #### [支持不同的屏幕密度](http://blog.csdn.net/sahadev_/article/details/51763785)
 
+  - #### [实现自适应UI](http://blog.csdn.net/sahadev_/article/details/51785736)
 
+### 创建自定义View
 
-  - #### 打印自定义文档
+  - #### [View的创建](http://blog.csdn.net/sahadev_/article/details/51865900)
 
+  - #### [View的绘制](http://blog.csdn.net/sahadev_/article/details/51874371)
 
+  - #### [View的交互](http://blog.csdn.net/sahadev_/article/details/51923640)
 
- 
+  - #### [View的优化](http://blog.csdn.net/sahadev_/article/details/51958893)
 
+### 管理系统UI
 
+  - #### [变暗系统条](http://blog.csdn.net/sahadev_/article/details/51968696)
 
+  - #### [隐藏状态条](http://blog.csdn.net/sahadev_/article/details/51970125)
 
+### 手势处理
 
-----------
+  - #### [监测通用手势](http://blog.csdn.net/sahadev_/article/details/52075556)
 
+  - #### [记录手指移动的轨迹](http://blog.csdn.net/sahadev_/article/details/52075560)
 
+  - #### [滚动动画及Scroller](http://blog.csdn.net/sahadev_/article/details/52100099)
 
+  - #### [多点触控处理](http://blog.csdn.net/sahadev_/article/details/52141355)
 
+  - #### [拖拽或缩放](http://blog.csdn.net/sahadev_/article/details/52167873)
 
-## 在APP内使用图像和动画 ##
+  - #### [ViewGroup的事件管理](http://blog.csdn.net/sahadev_/article/details/52185643)
 
+###键盘输入处理
 
+  - #### [指定输入的类型](http://blog.csdn.net/sahadev_/article/details/52201315)
 
- - ### 更高效的展示图片
+  - #### [控制输入法的显示方式](http://blog.csdn.net/sahadev_/article/details/52202092)
 
+  - #### [处理键盘按键](http://blog.csdn.net/sahadev_/article/details/52202226)
 
 
-  - #### 更高效的加载大图片
+### 后台服务
 
+  - #### [IntentService的创建](http://blog.csdn.net/sahadev_/article/details/52207439)
 
+  - #### [IntentService的使用](http://blog.csdn.net/sahadev_/article/details/52207443)
 
-  - #### 在非UI线程处理图片
+  - #### [响应IntentService的处理结果](http://blog.csdn.net/sahadev_/article/details/52213982)
 
+### 后台加载数据
 
+  - #### [使用CursorLoader进行查询](http://blog.csdn.net/sahadev_/article/details/52225615)
 
-  - #### 缓存图片
+  - #### [处理CursorLoader的查询结果](http://blog.csdn.net/sahadev_/article/details/52270401)
 
+###[管理设备的睡眠状态](http://blog.csdn.net/sahadev_/article/details/52246105)
 
+###[执行定时任务](http://blog.csdn.net/sahadev_/article/details/50922284)
 
-  - #### 管理图片内存
+###[性能优化建议](http://blog.csdn.net/sahadev_/article/details/52416345)
 
+###[APP的内存管理](http://blog.csdn.net/sahadev_/article/details/52317525)
 
+###布局性能优化
 
-  - #### 在你的界面上展示图片
+  - #### [布局层级优化](http://blog.csdn.net/sahadev_/article/details/52452669)
 
+  - #### [布局复用](http://blog.csdn.net/sahadev_/article/details/52503192)
 
+  - #### [按需加载View](http://blog.csdn.net/sahadev_/article/details/52504960)
 
+  - #### [ListView的优化](http://blog.csdn.net/sahadev_/article/details/52506356)
 
+###电池续航时间优化
 
+  - #### [监测电池电量及充电状态](http://blog.csdn.net/sahadev_/article/details/52516442)
 
+  - #### [检查与监测坞的状态与类型](http://blog.csdn.net/sahadev_/article/details/52579193)
 
- - ### 通过OpenGL ES 展示图像
+  - #### [检查、检测网络连接状态](http://blog.csdn.net/sahadev_/article/details/52592580)
 
+  - #### [按需开启广播接收器](http://blog.csdn.net/sahadev_/article/details/52601443)
 
+###线程执行操作
+  - ### [定义线程执行代码](http://blog.csdn.net/sahadev_/article/details/52687388)
 
-  - #### 创建OpenGL ES 环境
+  - ### [创建多线程管理器](http://blog.csdn.net/sahadev_/article/details/52701202)
 
+  - ### [线程池操作](http://blog.csdn.net/sahadev_/article/details/52729182)
 
+  - ### [线程间通讯](http://blog.csdn.net/sahadev_/article/details/52756867)
 
-  - #### 自定义模型
+###[如何避免ANR？](http://blog.csdn.net/sahadev_/article/details/52764317)
 
+###[Android的JNI相关](http://blog.csdn.net/sahadev_/article/details/52840611)
 
+###[Android的安全建议](http://blog.csdn.net/sahadev_/article/details/52949855)
 
-  - #### 绘制模型
+###Activity测试
 
+  - ### [测试环境配置](http://blog.csdn.net/sahadev_/article/details/52993439)
 
+  - ### [创建运行测试](http://blog.csdn.net/sahadev_/article/details/53019186)
 
-  - #### 使用Projection和CameraViews
+  - ### [UI组件测试](http://blog.csdn.net/sahadev_/article/details/53044310)
 
+  - ### [创建单元测试](http://blog.csdn.net/sahadev_/article/details/53127965)
 
-
-  - #### 添加动作
-
-
-
-  - #### 响应触摸事件
-
-
-
-
-
- - ### 使用场景过渡效果使界面动起来
-
-
-
-  - #### 过渡框架介绍
-
-
-
-  - #### 创建一个场景
-
-
-
-  - #### 使用一个过渡效果
-
-
-
-  - #### 创建自定义的过渡效果
-
-
-
- - ### 添加动画
-
-
-
-  - #### 在两个View间添加淡入淡出效果
-
-  - #### 使用ViewPager展示屏幕滑动动画效果
-
-  - #### 使用两张卡片展示翻转动画效果
-
-  - #### 放大一个View
-
-  - #### 布局改变动画
-
-
-
-
-
-----------
-
-
-
-## 使APP与云建立通信 ##
-
-
-
- - ### 连接无线网络
-
-  - #### 使用网络服务发现与被发现
-
-  - #### 使用WIFI创建P2P连接
-
-  - #### 使用WIFI P2P服务发现附近的设备
-
- 
-
- - ### 执行网络操作
-
-
-
-  - #### 连接到网络
-
-  - #### 管理网络的使用状况
-
-  - #### 解析XML数据
-
-
-
- - ### 在消耗极少电量的情况下传输数据
-
-  - #### 在高效的网络状况下优化下载
-
-  - #### 定期更新的影响最小化
-
-  - #### 冗余的下载都是多余的
-
-  - #### 基于网络的链接类型修改你的下载方式
-
-
-
- - ### 与云端同步
-
-  - #### 使用备份的API
-
- 
-
-
- - ### 解决云存储冲突 ###
-
- - ### 使用Sync Adapter传送数据
-
-
-
-  - #### 创建一个认证器存根
-
-  - #### 创建一个内容共享存根
-
-  - #### 创建Sync Adapter
-
-  - #### 运行Sync Adapter
-
-
-
- - ### 使用Volley传送网络数据
-
-
-
-  - #### 发送一个简单的请求
-
-  - #### 设置请求队列
-
-  - #### 作用一个标准的请求
-
-  - #### 实现自定义请求
-
-
-
-
-
-----------
-
-
-
-## 在APP内使用位置与地图功能 ##
-
-
-
- - ### 使你的应用有位置功能
-
-
-
-  - #### 获取最后获得的位置坐标信息
-
-  - #### 接收位置坐标信息更新
-
-  - #### 展示位置坐标地址
-
-  - #### 创建并且监测地理围栏
-
-
-
- - ### 添加地图
-
-
-
-
-
-----------
-
-
-
-## 在APP内添加用户登录以及获取用户信息 ##
-
-
-
- - ### 访问联系人数据
-
-  - #### 接收联系人列表信息
-
-  - #### 接收联系人的详细信息
-
-  - #### 使用Intent修改用户信息
-
-  - #### 展示快速联系人标记
-
- - ### 添加登录入口(Google+功能)
-
-
-
-
-
-----------
-
-
-
-
-
-## 创建可穿戴设备应用##
-
-
-
-
-
-----------
-
-
-
-
-
-## 创建TV电视应用 ##
-
-
-
-
-
-----------
-
-
-
-
-
-## 创建汽车控制台应用 ##
-
-
-
-
-
-----------
-
-## 创建企业商业应用 ##
-
- - #### 使用管理配置确保兼容性
- - ####
-
-
-----------
-
-## 用户交互最佳练习 ##
-
-
-
- - ### 设计有效的引导
-
-
-
-  - #### 设计好界面以及它们的关系
-
-  - #### 设计好多个触摸屏幕的尺寸
-
-  - #### 提供向前向后的导航
-
-  - #### 提供主界面导航以及临时导航
-
-  - #### 把相同的功能放置到一起
-
-
-
- - ### 实现有效的引导
-
-
-
-- #### 使用Tabs创建可滑动的View
-
-- #### 创建一个导航抽屉
-
-- #### 提供一个向上的导航
-
-- #### 提供一个向后的导航
-
-- #### 实现一个标准的导航(这几个翻译全部标准，待阅读详细文章后更改)
-
-
-
- - ### 通知用户
-
-
-
-  - #### 构建一个通知
-
-  - #### 在启动Activity预留一个导航
-
-  - #### 更新通知
-
-  - #### 使用大界面风格
-
-  - #### 在通知栏上展示进度
-
-
-
- - ### 支持滑动刷新
-
-
-
-  - #### 在你的应用中添加Swipe-to-Refresh
-
-  - #### 响应刷新手势
-
-
-
- - ### 添加可搜索的功能
-
-
-
-  - #### 设置搜索接口
-
-  - #### 存储和查找数据
-
-  - #### 保持向后兼容性
-
-
-
- - ### 使你的应用可以被Google搜索到
-
-----------
-
-## 用户UI最佳练习 ##
-
- - ### 对多屏幕进行设计
-
-
-
-  - #### 支持不同的屏幕尺寸
-
-  - #### 支持不同的屏幕密度
-
-  - #### 实现适用的UI Flows
-
-
-
- - ### 创建自定义View
-
-
-
-  - #### 创建一个自定义View类
-
-  - #### 实现自定义绘制方法
-
-  - #### 使View是可交互的
-
-  - #### 使View效果最优
-
-
-
-
-
- - ### 创建向后兼容的UI
-
-
-
-  - #### 抽象新API
-
-  - #### 代理新API
-
-  - #### 使用老的API创建实现
-
-  - #### 使用版本编译组件
-
-
-
- - ### 实现稳定的状态
-
-
-
-  - #### 开发稳定的应用
-
-  - #### 开发稳定的服务
-
-
-
- - ### 管理好系统UI
-
-
-
-  - #### 变暗系统栏
-
-  - #### 隐藏状态栏
-
-  - #### 隐藏导航栏
-
-  - #### 使用沉浸式的全屏模式
-
-  - #### 响应UI可见状态的改变
-
-
-
- - ### 使用MaterialDesign设计创建APP
-
-
-
-  - #### 入门指南
-
-  - #### 使用Material主题
-
-  - #### 创建列表以及卡片
-
-  - #### 定义影子以及裁剪的Views
-
-  - #### 在工作线程处理图像
-
-  - #### 自定义动画
-
-  - #### 保持兼容性
-
-
-
-----------
-
-## 用户输入最佳练习 ##
-
- - ### 使用触摸手势
-
-
-
-  - #### 探测通用手势
-
-  - #### 轨迹跟踪
-
-  - #### 旋转手势动画
-
-  - #### 处理多触摸手势
-
-  - #### 拉伸和放大
-
-  - #### 在ViewGroup中管理触摸事件
-
-
-
- - ### 处理键盘输入
-
-
-
-  - #### 指定输入方法类型
-
-  - #### 处理输入方法可见性
-
-  - #### 支持键盘导航
-
-  - #### 处理键盘功能
-
-
-
-
-
- - ### 支持游戏控制器
-
-
-
-  - #### 处理控制功能
-
-  - #### 支持控制穿越安卓版本
-
-  - #### 支持多个游戏控制器
-
-
-
-
-
-----------
-
-
-
-## 使你的APP在后台工作 ##
-
-
-
- - ### 运行一个后台服务
-
-
-
-  - #### 创建一个后台服务
-
-  - #### 发送一个工作请求到后台服务
-
-  - #### 报告工作状态
-
-
-
- - ### 在后台加载数据
-
-
-
-  - #### 使用CursorLoader运行查询
-
-  - #### 处理结果
-
-
-
-
-
- - ### 管理设备的唤起状态
-
-
-
-  - #### 保持设备唤醒状态
-
-  - #### 执行重复的时钟任务
-
-
-
-
-
-----------
-
-## 处理好设备的性能##
-
- - ### 管理你设备的内存
-
- - ### 性能提示
-
- - ### 提高布局性能
-
-
-
-  - #### 优化布局层级
-
-  - #### 使用**< include />**标签重用布局
-
-  - #### 在需要的时候加载View
-
-  - #### 使ListView滑动更流畅
-
-
-
-
-
- - ### 优化电池的生命
-
-
-
-  - #### 监视电池电量等级并且改变状态
-
-  - #### 决定并且监视电池坞的状态和类型
-
-  - #### 决定并且监视连接状态
-
-  - #### 在使用的时候再注册广播接收器
-
-
-
-
-
- - ### 发送任务给多个线程
-
-
-
-  - #### 在指定的线程中运行代码
-
-  - #### 创建多线程管理者
-
-  - #### 在线程池中运行代码
-
-  - #### 与UI线程进行通信
-
-
-
- - ### 保持应用的响应状态
-
- - ### JNI提示
-
- - ### 安卓的对称性多处理器初步认知
-
-
-
-
-
-----------
-
-
-
-## 保护好应用的安全及隐私 ##
-
- - ### 安全提示
-
- - ### 使用HTTPS和SSL确保安全
-
- - ### 更新你的安全提供者对SSL保护利用
-
- - ### 使用安全站点监测设备的兼容性
-
- - ### 使用设备管理政策提升安全性
-
-
-
-
-
-----------
-
-
-
-## 对你的应用进行测试 ##
-
- - ### 测试你的Activity
-
-
-
-  - #### 设置测试环境
-
-  - #### 创建并且运行测试用例
-
-  - #### 测试UI组件
-
-  - #### 创建一个单元测试
-
-  - #### 创建一个功能测试
-
- - ### 自动化测试
-
-
-
-  - #### 测试一个APP的UI
-
-  - #### 测试多个APP的UI
-
-
-
- - ### 创建有效的单元测试
-
-
-
-  - #### 创建本地的单元测试
-
-  - #### 创建工具化的单元测试
-
-
-
-
-
-----------
-
-
-
-
-
-## 贡献到GooglePlay并且赚取收入 ##
-
- - ### 销售应用内的商品
-
-
-
-  - #### 准备你的APP
-
-  - #### 发布商品并且销售
-
-  - #### 购买商品
-
-  - #### 测试你的APP
-
-
-
- - ### 维护不同的APK文件
-
-
-
-  - #### 为不同的API版本创建不同的APK文件
-
-  - #### 为不同的屏幕密度创建不同的APK文件
-
-  - #### 为不同的GL纹理创建不同的APK文件
-
-  - #### 使用2倍以上的值创建不同的APK文件
-
-
-
-
+  - ### [创建功能性测试](http://blog.csdn.net/sahadev_/article/details/53157510)
 
 ----------
 
 DONE.
 国内API的镜像地址为：[http://android.xsoftlab.net/training/index.html](http://android.xsoftlab.net/training/index.html)
 
-这个目录中一共有19个大项，59个小项，172个小知识点，你看你是否大部分都掌握了呢？
+> **写在后面的总结**：本翻译项目从**2016年03月15日**开始到**2016年11月14日结束**，正好8个整月，共计文章114篇。文档的翻译水平从刚开始的马马虎虎到后来的"马马虎虎"。对我自己来说当初的目的也达到了：
+> 
+> - 熟悉Android整体知识体系。
+> - 对自己的英文阅读水平多少有所提升。
+> - 因为他使我得到了不少的意外收获。
+> - 兑现了当时自己定下的目标。
+> - 他可以帮助到需要他的人。
+> 
+> 最后要说的就这么多，**《Android官方开发文档Training系列课程中文版》**系列翻译到此画上了句号。
+> 
+> 所有翻译文章的发布地址为：**[http://blog.csdn.net/sahadev_](http://blog.csdn.net/sahadev_ "http://blog.csdn.net/sahadev_")**
+> 
+> 项目的源文件地址为：**[https://code.csdn.net/u011064099/android-training-chinese-version/tree/master](https://code.csdn.net/u011064099/android-training-chinese-version/tree/master "https://code.csdn.net/u011064099/android-training-chinese-version/tree/master")**
+> 
+> 最后感谢[CSDN](http://www.csdn.net/)、[梦鸽](http://blog.csdn.net/soledadzz)对我的大力支持！
