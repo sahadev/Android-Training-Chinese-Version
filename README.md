@@ -6,31 +6,31 @@
 ----------
 ### 构建第一款安卓应用
 
- -  #### [工程创建](http://blog.csdn.net/sahadev_/article/details/50932308)
+ - #### [工程创建](http://blog.csdn.net/sahadev_/article/details/50932308)
 
- -  #### [程序运行](http://blog.csdn.net/sahadev_/article/details/50933251)
+ - #### [程序运行](http://blog.csdn.net/sahadev_/article/details/50933251)
 
- -  #### [创建用户界面](http://blog.csdn.net/sahadev_/article/details/50946753)
+ - #### [创建用户界面](http://blog.csdn.net/sahadev_/article/details/50946753)
 
- -  #### [启动另一个Activity](http://blog.csdn.net/sahadev_/article/details/50953034)
+ - #### [启动另一个Activity](http://blog.csdn.net/sahadev_/article/details/50953034)
 
 ### 添加ActionBar
 
- -  #### [设置ActionBar](http://blog.csdn.net/sahadev_/article/details/50957193)
+ - #### [设置ActionBar](http://blog.csdn.net/sahadev_/article/details/50957193)
 
- -  #### [添加Action按钮](http://blog.csdn.net/sahadev_/article/details/50957547)
+ - #### [添加Action按钮](http://blog.csdn.net/sahadev_/article/details/50957547)
 
- -  #### [自定义ActionBar样式](http://blog.csdn.net/sahadev_/article/details/50964688)
+ - #### [自定义ActionBar样式](http://blog.csdn.net/sahadev_/article/details/50964688)
 
- -  #### [ActionBar浮层效果](http://blog.csdn.net/sahadev_/article/details/50965206)
+ - #### [ActionBar浮层效果](http://blog.csdn.net/sahadev_/article/details/50965206)
 
 ###支持不同的设备
 
- -  #### [支持不同的语言](http://blog.csdn.net/sahadev_/article/details/50965604)
+ - #### [支持不同的语言](http://blog.csdn.net/sahadev_/article/details/50965604)
 
- -  #### [支持不同的屏幕](http://blog.csdn.net/sahadev_/article/details/50965993)
+ - #### [支持不同的屏幕](http://blog.csdn.net/sahadev_/article/details/50965993)
 
- -  #### [支持不同的平台版本](http://blog.csdn.net/sahadev_/article/details/50972440)
+ - #### [支持不同的平台版本](http://blog.csdn.net/sahadev_/article/details/50972440)
 
 ###管理Activity的生命周期
 
