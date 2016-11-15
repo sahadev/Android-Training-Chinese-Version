@@ -311,6 +311,6 @@ DONE.
 > 
 > 所有翻译文章的发布地址为：**[http://blog.csdn.net/sahadev_](http://blog.csdn.net/sahadev_ "http://blog.csdn.net/sahadev_")**
 > 
-> 项目的源文件地址为：**[https://code.csdn.net/u011064099/android-training-chinese-version/tree/master](https://code.csdn.net/u011064099/android-training-chinese-version/tree/master "https://code.csdn.net/u011064099/android-training-chinese-version/tree/master")**
+> 项目的源文件地址为：**[https://github.com/sahadev/Android-Training-Chinese-Version](https://github.com/sahadev/Android-Training-Chinese-Version "https://github.com/sahadev/Android-Training-Chinese-Version")**
 > 
 > 最后感谢[CSDN](http://www.csdn.net/)、[梦鸽](http://blog.csdn.net/soledadzz)对我的大力支持！
